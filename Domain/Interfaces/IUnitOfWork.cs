@@ -9,5 +9,9 @@ public interface IUnitOfWork
 {
     IRolRepository Roles { get; }
     IUserRepository Users { get; }
+    IProveedor Proveedores { get; }
+    ITipoPersona TipoPersonas { get; }
+    IMunicipio Municipios { get; }
+
     Task<int> SaveAsync();
 }

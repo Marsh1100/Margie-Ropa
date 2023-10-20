@@ -25,7 +25,9 @@ public class ApiDbContext : DbContext
     public DbSet<Prenda> Prendas { get; set; }
     public DbSet<DetalleOrden> DetalleOrdenes { get; set; }
     public DbSet<InsumoPrenda> InsumoPrendas { get; set; }
-    public DbSet<InsumoProveedor> Proveedor { get; set; }
+    public DbSet<Proveedor> Proveedores { get; set; }
+
+    public DbSet<InsumoProveedor> InsumoProveedores { get; set; }
     public DbSet<TipoProteccion> TipoProteciones { get; set; }
     public DbSet<Genero> Generos { get; set; }
     public DbSet<Color> Colores { get; set; }
