@@ -8,5 +8,5 @@ namespace Domain.Entities;
 public class TipoProteccion : BaseEntity
 {
    public string Descripcion { get; set; }
-   ICollection<Prenda> Prendas {get; set;}
+   public ICollection<Prenda> Prendas {get; set;}
 }

@@ -8,6 +8,6 @@ namespace Domain.Entities;
 public class FormaPago : BaseEntity
 {
     public string Descripcion { get; set; }
-    ICollection<Venta> Ventas { get; set; }
+    public ICollection<Venta> Ventas { get; set; }
     
 }

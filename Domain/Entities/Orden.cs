@@ -14,6 +14,6 @@ public class Orden : BaseEntity
     public Cliente Cliente { get; set; }
     public int EstadoId { get; set; }
     public Estado Estado    { get; set; }
-    ICollection<DetalleOrden> DetalleOrdenes { get; set; }
+    public ICollection<DetalleOrden> DetalleOrdenes { get; set; }
     
 }

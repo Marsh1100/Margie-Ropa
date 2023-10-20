@@ -14,7 +14,7 @@ public class Cliente : BaseEntity
     public DateTime FechaRegistro { get; set; }
     public int MunicipioId { get; set; }
     public Municipio Municipio { get; set; }
-    ICollection<Venta> Ventas { get; set; }
-    ICollection<Orden> Ordenes { get; set; }
+    public ICollection<Venta> Ventas { get; set; }
+    public ICollection<Orden> Ordenes { get; set; }
 
 }

@@ -12,10 +12,10 @@ public class Insumo : BaseEntity
     public int StockMin {get; set; }
     public int StockMax {get; set; }
     public ICollection<InsumoPrenda> InsumoPrendas { get; set; }
-    public ICollection<Prenda> Prendas { get; set; } = new HashSet<Prenda>();
+    public ICollection<Prenda> Prendas { get; set; } 
 
     public ICollection<InsumoProveedor> InsumoProveedores { get;}
-    public ICollection<Proveedor> Proveedores { get; set; } = new HashSet<Proveedor>();
+    public ICollection<Proveedor> Proveedores { get; set; } 
      
 
 
