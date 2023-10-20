@@ -9,5 +9,6 @@ public class TipoPersona : BaseEntity
 {
     public string Nombre { get; set; }
     ICollection<Cliente> Clientes { get; set; }
-    
+    ICollection<Proveedor> Proveedores { get; set; }
+
 }

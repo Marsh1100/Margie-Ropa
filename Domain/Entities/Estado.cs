@@ -10,7 +10,7 @@ public class Estado : BaseEntity
     public string Codigo { get; set; }
     public int TipoEstadoId { get; set; }
     public TipoEstado TipoEstado { get; set; }
-    ICollection<DetalleOrden> DetalleOrdenes { get; set; }
+    ICollection<Orden> Ordenes { get; set; }
     ICollection<Prenda> Prendas { get; set; }
 
 }

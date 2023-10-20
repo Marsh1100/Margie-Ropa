@@ -9,7 +9,6 @@ public class Prenda : BaseEntity
 {
     public int IdPrenda { get; set; }
     public string Nombre { get; set; }
-    public int PrendaId { get; set; }
     public double ValorUnitCOP { get; set; }
     public double ValorUnitUSD { get; set; }
     public int EstadoId { get; set; }
@@ -20,5 +19,8 @@ public class Prenda : BaseEntity
     public Genero Genero { get; set; }
 
     ICollection<DetalleOrden> DetalleOrdenes { get; set; }
-    
+    ICollection<Inventario> Inventarios { get; set; }
+    public ICollection<InsumoPrenda> InsumoPrendas { get; set; }
+    public ICollection<Insumo> Insumos { get; set; } = new HashSet<Insumo>();
+
 }
