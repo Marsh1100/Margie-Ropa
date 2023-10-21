@@ -15,12 +15,12 @@ namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
 
-public class PrendaController : ApiBaseController
+public class VentaController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public PrendaController( IUnitOfWork unitOfWork, IMapper mapper)
+    public VentaController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -31,20 +31,20 @@ public class PrendaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<IEnumerable<PrendaDto>>> Get()
+    public async Task<ActionResult<IEnumerable<VentaDto>>> Get()
     {
-        var result = await _unitOfWork.Prendas.GetAllAsync();
-        return _mapper.Map<List<PrendaDto>>(result);
+        var result = await _unitOfWork.Ventas.GetAllAsync();
+        return _mapper.Map<List<VentaDto>>(result);
     }
     [HttpGet]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Pager<PrendaDto>>> GetPagination([FromQuery] Params p)
+    public async Task<ActionResult<Pager<VentaDto>>> GetPagination([FromQuery] Params p)
     {
-        var result = await _unitOfWork.Prendas.GetAllAsync(p.PageIndex, p.PageSize, p.Search);
-        var resultDto = _mapper.Map<List<PrendaDto>>(result.registros);
-        return  new Pager<PrendaDto>(resultDto,result.totalRegistros, p.PageIndex, p.PageSize, p.Search);
+        var result = await _unitOfWork.Ventas.GetAllAsync(p.PageIndex, p.PageSize, p.Search);
+        var resultDto = _mapper.Map<List<VentaDto>>(result.registros);
+        return  new Pager<VentaDto>(resultDto,result.totalRegistros, p.PageIndex, p.PageSize, p.Search);
     }
 
 
@@ -52,16 +52,18 @@ public class PrendaController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Prenda>> Post([FromBody] PrendaDto dto)
+    public async Task<ActionResult<Venta>> Post([FromBody] VentaDto dto)
     {
-        var result = _mapper.Map<Prenda>(dto);
-        this._unitOfWork.Prendas.Add(result);
+        var result = _mapper.Map<Venta>(dto);
+        this._unitOfWork.Ventas.Add(result);
         await _unitOfWork.SaveAsync();
+
 
         if(result == null)
         {
             return BadRequest();
         }
+
         return CreatedAtAction(nameof(Post), new{id=result.Id}, result);
     }
 
@@ -70,11 +72,11 @@ public class PrendaController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Prenda>> put(PrendaDto dto)
+    public async Task<ActionResult<Venta>> put(VentaDto dto)
     {
         if(dto == null){ return NotFound(); }
-        var result = this._mapper.Map<Prenda>(dto);
-        this._unitOfWork.Prendas.Update(result);
+        var result = this._mapper.Map<Venta>(dto);
+        this._unitOfWork.Ventas.Update(result);
         Console.WriteLine(await this._unitOfWork.SaveAsync());
         return result;
     }
@@ -88,25 +90,15 @@ public class PrendaController : ApiBaseController
 
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Prendas.GetByIdAsync(id);
+        var result = await _unitOfWork.Ventas.GetByIdAsync(id);
         if(result == null)
         {
             return NotFound();
         }
-        this._unitOfWork.Prendas.Remove(result);
+        this._unitOfWork.Ventas.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }
 
-    [HttpGet("prendasProteccion")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-    public async Task<ActionResult> GetPrendas()
-    {
-        var result = await _unitOfWork.Prendas.GetPrendas();
-        return Ok(result);
-    }
-    
+   
 }

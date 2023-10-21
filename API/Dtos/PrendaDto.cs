@@ -20,3 +20,11 @@ public class PrendaDto
     [Required]
     public int GeneroId { get; set; }
 }
+
+public class PrendaOnlyDto
+{
+    public int IdPrenda { get; set; }
+    public string Nombre { get; set; }
+    public string TipoProteccion{ get; set; }
+
+}

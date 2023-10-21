@@ -35,5 +35,10 @@ public class MappingProfiles : Profile
             .ReverseMap();
          CreateMap<DetalleOrden,DetalleOrdenDto>()
             .ReverseMap();
+        CreateMap<Prenda,PrendaOnlyDto>()
+            .ForMember(dest=>dest.TipoProteccion, origen=> origen.MapFrom(origen=> origen.TipoProteccion.Descripcion))
+            .ReverseMap();
+         CreateMap<Venta,VentaDto>()
+            .ReverseMap();
     }
 }

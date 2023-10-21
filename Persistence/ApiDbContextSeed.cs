@@ -144,6 +144,17 @@ public class ApiDbContextSeed
                 context.Cargos.AddRange(list);
                 await context.SaveChangesAsync();
             }
+            if (!context.FormaPagos.Any())
+            {
+                var list = new List<FormaPago>
+                {
+                    new() { Descripcion = "Efectivo" },
+                    new() { Descripcion = "Transferencia" }
+
+                };
+                context.FormaPagos.AddRange(list);
+                await context.SaveChangesAsync();
+            }
             
         }catch(Exception ex)
         {
@@ -381,6 +392,35 @@ public class ApiDbContextSeed
                             });
                         }
                         context.DetalleOrdenes.AddRange(entidad);
+                        await context.SaveChangesAsync();
+                    }
+                }
+                
+            }
+            if(!context.Ventas.Any())
+            {
+                using (var reader = new StreamReader("../Persistence/Data/Csvs/venta.csv"))
+                {
+                    using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HeaderValidated = null, // Esto deshabilita la validación de encabezados
+                        MissingFieldFound = null
+                    }))
+                    {
+                        // Resto de tu código para leer y procesar el archivo CSV
+                        var list = csv.GetRecords<Venta>();
+                        List<Venta> entidad = new();
+                        foreach (var item in list)
+                        {
+                            entidad.Add(new Venta
+                            {
+                                Fecha= item.Fecha,
+                                EmpleadoId = item.EmpleadoId,
+                                ClienteId = item.ClienteId,
+                                FormaPagoId = item.FormaPagoId
+                            });
+                        }
+                        context.Ventas.AddRange(entidad);
                         await context.SaveChangesAsync();
                     }
                 }

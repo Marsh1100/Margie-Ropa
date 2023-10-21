@@ -21,10 +21,21 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IEmpleado _empleado; 
     private IOrden _orden; 
     private IDetalleOrden _detalleOrden; 
-  
+    private IVenta _venta;
     public UnitOfWork(ApiDbContext context)
     {
         _context = context;
+    }
+    public IVenta Ventas
+    {
+        get
+        {
+            if (_venta == null)
+            {
+                _venta = new VentaRepository(_context);
+            }
+            return _venta;
+        }
     }
     public ICliente Clientes
     {

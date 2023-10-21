@@ -18,6 +18,7 @@ public interface IUnitOfWork
     IEmpleado Empleados { get; }
     IOrden Ordenes { get; }
     IDetalleOrden DetalleOrdenes { get; }
+    IVenta Ventas { get; }
 
 
     Task<int> SaveAsync();
