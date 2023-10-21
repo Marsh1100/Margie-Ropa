@@ -56,7 +56,6 @@ http://localhost:5000/api/Cliente?pageIndex=2&pageSize=1
     http://localhost:5000/api/Proveedor/natural
     ```
     ![image](https://github.com/Marsh1100/Margie-Ropa/assets/131481951/0aec4eec-4e5e-470f-853f-b4134a5f8156)
-   Endpoint para cualquier especialidad: ```http://localhost:5076/api/Vet/veterinariansBySpeciality/{id}``` <br><br>
 2. Listar las prendas de una orden de producción cuyo estado sea en producción. El usuario debe ingresar el número de orden de producción.
     ```
     http://localhost:5000/api/Orden/prendasXorden/2
