@@ -71,6 +71,80 @@ public class ApiDbContextSeed
                 context.TipoPersonas.AddRange(list);
                 await context.SaveChangesAsync();
             }
+            if (!context.TipoProteciones.Any())
+            {
+                var list = new List<TipoProteccion>
+                {
+                    new() { Descripcion = "Fuego" },
+                    new() { Descripcion = "Voltaje" }
+
+                };
+                context.TipoProteciones.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+            if (!context.TipoEstados.Any())
+            {
+                var list = new List<TipoEstado>
+                {
+                    new() { Descripcion = "Produccion" },
+                    new() { Descripcion = "Completo" }
+                };
+                context.TipoEstados.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+            if (!context.Estados.Any())
+            {
+                var list = new List<Estado>
+                {
+                    new() { Codigo = "Naranja",
+                            TipoEstadoId = 1},
+                    new() { Codigo = "Verde",
+                            TipoEstadoId = 2 }
+                };
+                context.Estados.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+            if (!context.Generos.Any())
+            {
+                var list = new List<Genero>
+                {
+                    new() { Descripcion = "UniSex" },
+                    new() { Descripcion = "Femenino" },
+                    new() { Descripcion = "Masculino" }
+
+                };
+                context.Generos.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+            if (!context.Colores.Any())
+            {
+                var list = new List<Color>
+                {
+                    new() { Descripcion = "Azul" },
+                    new() { Descripcion = "Negro" },
+                    new() { Descripcion = "Amarillo" },
+                    new() { Descripcion = "Naranja" }
+
+
+                };
+                context.Colores.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+            if (!context.Cargos.Any())
+            {
+                var list = new List<Cargo>
+                {
+                    new() { Descripcion = "Auxiliar de Bodega",
+                            SueldoBase = 20000000},
+                    new() { Descripcion = "Jefe de Producción",
+                            SueldoBase = 30000000},                    
+                    new() { Descripcion = "Secretaria",
+                            SueldoBase = 20000000},
+                };
+                context.Cargos.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+            
         }catch(Exception ex)
         {
             var logger = loggerFactory.CreateLogger<ApiDbContext>();
@@ -137,6 +211,66 @@ public class ApiDbContextSeed
                     }
                 }
             }
+            if(!context.Empleados.Any())
+            {
+                using (var reader = new StreamReader("../Persistence/Data/Csvs/empleado.csv"))
+                {
+                    using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HeaderValidated = null, // Esto deshabilita la validación de encabezados
+                        MissingFieldFound = null
+                    }))
+                    {
+                        // Resto de tu código para leer y procesar el archivo CSV
+                        var list = csv.GetRecords<Empleado>();
+                        List<Empleado> entidad = new();
+                        foreach (var item in list)
+                        {
+                            entidad.Add(new Empleado
+                            {
+                                Id = item.Id,
+                                Nombre = item.Nombre,
+                                IdEmp = item.IdEmp,
+                                CargoId=item.CargoId,
+                                FechaIngreso = item.FechaIngreso,
+                                MunicipioId = item.MunicipioId
+                            });
+                        }
+                        context.Empleados.AddRange(entidad);
+                        await context.SaveChangesAsync();
+                    }
+                }
+            }
+            if(!context.Clientes.Any())
+            {
+                using (var reader = new StreamReader("../Persistence/Data/Csvs/cliente.csv"))
+                {
+                    using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HeaderValidated = null, // Esto deshabilita la validación de encabezados
+                        MissingFieldFound = null
+                    }))
+                    {
+                        // Resto de tu código para leer y procesar el archivo CSV
+                        var list = csv.GetRecords<Cliente>();
+                        List<Cliente> entidad = new();
+                        foreach (var item in list)
+                        {
+                            entidad.Add(new Cliente
+                            {
+                                Id = item.Id,
+                                Nombre = item.Nombre,
+                                IdCliente = item.IdCliente,
+                                TipoPersonaId=item.TipoPersonaId,
+                                FechaRegistro = item.FechaRegistro,
+                                MunicipioId = item.MunicipioId
+                            });
+                        }
+                        context.Clientes.AddRange(entidad);
+                        await context.SaveChangesAsync();
+                    }
+                }
+            }
             if(!context.UserRoles.Any())
             {
                 using (var reader = new StreamReader("../Persistence/Data/Csvs/userrol.csv"))
@@ -162,6 +296,95 @@ public class ApiDbContextSeed
                         await context.SaveChangesAsync();
                     }
                 }
+            }
+            if(!context.Prendas.Any())
+            {
+                using (var reader = new StreamReader("../Persistence/Data/Csvs/prenda.csv"))
+                {
+                    using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HeaderValidated = null, // Esto deshabilita la validación de encabezados
+                        MissingFieldFound = null
+                    }))
+                    {
+                        // Resto de tu código para leer y procesar el archivo CSV
+                        var list = csv.GetRecords<Prenda>();
+                        List<Prenda> entidad = new();
+                        foreach (var item in list)
+                        {
+                            entidad.Add(new Prenda
+                            {
+                                IdPrenda= item.IdPrenda,
+                                Nombre = item.Nombre,
+                                ValorUnitCOP = item.ValorUnitCOP,
+                                ValorUnitUSD = item.ValorUnitUSD,
+                                EstadoId = item.EstadoId,
+                                TipoProteccionId = item.TipoProteccionId,
+                                GeneroId = item.GeneroId
+                            });
+                        }
+                        context.Prendas.AddRange(entidad);
+                        await context.SaveChangesAsync();
+                    }
+                }
+                
+            }
+            if(!context.Ordenes.Any())
+            {
+                using (var reader = new StreamReader("../Persistence/Data/Csvs/orden.csv"))
+                {
+                    using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HeaderValidated = null, // Esto deshabilita la validación de encabezados
+                        MissingFieldFound = null
+                    }))
+                    {
+                        // Resto de tu código para leer y procesar el archivo CSV
+                        var list = csv.GetRecords<Orden>();
+                        List<Orden> entidad = new();
+                        foreach (var item in list)
+                        {
+                            entidad.Add(new Orden
+                            {
+                                Fecha= item.Fecha,
+                                EmpleadoId = item.EmpleadoId,
+                                ClienteId = item.ClienteId,
+                                EstadoId = item.EstadoId
+                            });
+                        }
+                        context.Ordenes.AddRange(entidad);
+                        await context.SaveChangesAsync();
+                    }
+                }
+            }
+            if(!context.DetalleOrdenes.Any())
+            {
+                using (var reader = new StreamReader("../Persistence/Data/Csvs/detalleOrden.csv"))
+                {
+                    using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HeaderValidated = null, // Esto deshabilita la validación de encabezados
+                        MissingFieldFound = null
+                    }))
+                    {
+                        // Resto de tu código para leer y procesar el archivo CSV
+                        var list = csv.GetRecords<DetalleOrden>();
+                        List<DetalleOrden> entidad = new();
+                        foreach (var item in list)
+                        {
+                            entidad.Add(new DetalleOrden
+                            {
+                                OrdenId= item.OrdenId,
+                                PrendaId = item.PrendaId,
+                                ColorId = item.ColorId,
+                                CantidadProducida = item.CantidadProducida
+                            });
+                        }
+                        context.DetalleOrdenes.AddRange(entidad);
+                        await context.SaveChangesAsync();
+                    }
+                }
+                
             }
         }catch(Exception ex)
         {

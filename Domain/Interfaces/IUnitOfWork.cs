@@ -12,6 +12,13 @@ public interface IUnitOfWork
     IProveedor Proveedores { get; }
     ITipoPersona TipoPersonas { get; }
     IMunicipio Municipios { get; }
+    IPrenda Prendas { get; }
+
+    ICliente Clientes { get; }
+    IEmpleado Empleados { get; }
+    IOrden Ordenes { get; }
+    IDetalleOrden DetalleOrdenes { get; }
+
 
     Task<int> SaveAsync();
 }

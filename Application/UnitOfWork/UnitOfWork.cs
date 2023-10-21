@@ -16,10 +16,70 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IProveedor _proveedor;
     private ITipoPersona _tipoPersona;
     private IMunicipio _municipio;
+    private IPrenda _prendas;
+    private ICliente _clientes; 
+    private IEmpleado _empleado; 
+    private IOrden _orden; 
+    private IDetalleOrden _detalleOrden; 
   
     public UnitOfWork(ApiDbContext context)
     {
         _context = context;
+    }
+    public ICliente Clientes
+    {
+        get
+        {
+            if (_clientes == null)
+            {
+                _clientes = new ClienteRepository(_context);
+            }
+            return _clientes;
+        }
+    }
+    public IEmpleado Empleados
+    {
+        get
+        {
+            if (_empleado == null)
+            {
+                _empleado = new EmpleadoRepository(_context);
+            }
+            return _empleado;
+        }
+    }
+     public IOrden Ordenes
+    {
+        get
+        {
+            if (_orden == null)
+            {
+                _orden = new OrdenRepository(_context);
+            }
+            return _orden;
+        }
+    }
+     public IDetalleOrden DetalleOrdenes
+    {
+        get
+        {
+            if (_detalleOrden == null)
+            {
+                _detalleOrden = new DetalleOrdenRepository(_context);
+            }
+            return _detalleOrden;
+        }
+    }
+    public IPrenda Prendas
+    {
+        get
+        {
+            if (_prendas == null)
+            {
+                _prendas = new PrendaRepository(_context);
+            }
+            return _prendas;
+        }
     }
     public IMunicipio Municipios
     {

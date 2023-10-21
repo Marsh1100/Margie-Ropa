@@ -25,5 +25,15 @@ public class MappingProfiles : Profile
             .ForMember(dest=>dest.TipoPersona, origen=> origen.MapFrom(origen=> origen.TipoPersona.Nombre))
             .ForMember(dest=>dest.Municipio, origen=> origen.MapFrom(origen=> origen.Municipio.Nombre))
             .ReverseMap();
+        CreateMap<Prenda,PrendaDto>()
+            .ReverseMap();
+        CreateMap<Cliente,ClienteDto>()
+            .ReverseMap();
+        CreateMap<Empleado,EmpleadoDto>()
+            .ReverseMap();
+        CreateMap<Orden,OrdenDto>()
+            .ReverseMap();
+         CreateMap<DetalleOrden,DetalleOrdenDto>()
+            .ReverseMap();
     }
 }

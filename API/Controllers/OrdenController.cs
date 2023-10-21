@@ -15,12 +15,12 @@ namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
 
-public class ProveedorController : ApiBaseController
+public class OrdenController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ProveedorController(IUnitOfWork unitOfWork, IMapper mapper)
+    public OrdenController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -31,20 +31,20 @@ public class ProveedorController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<IEnumerable<ProveedorDto>>> Get()
+    public async Task<ActionResult<IEnumerable<OrdenDto>>> Get()
     {
-        var result = await _unitOfWork.Proveedores.GetAllAsync();
-        return _mapper.Map<List<ProveedorDto>>(result);
+        var result = await _unitOfWork.Ordenes.GetAllAsync();
+        return _mapper.Map<List<OrdenDto>>(result);
     }
     [HttpGet]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Pager<ProveedorDto>>> GetPagination([FromQuery] Params p)
+    public async Task<ActionResult<Pager<OrdenDto>>> GetPagination([FromQuery] Params p)
     {
-        var result = await _unitOfWork.Proveedores.GetAllAsync(p.PageIndex, p.PageSize, p.Search);
-        var resultDto = _mapper.Map<List<ProveedorDto>>(result.registros);
-        return  new Pager<ProveedorDto>(resultDto,result.totalRegistros, p.PageIndex, p.PageSize, p.Search);
+        var result = await _unitOfWork.Ordenes.GetAllAsync(p.PageIndex, p.PageSize, p.Search);
+        var resultDto = _mapper.Map<List<OrdenDto>>(result.registros);
+        return  new Pager<OrdenDto>(resultDto,result.totalRegistros, p.PageIndex, p.PageSize, p.Search);
     }
 
 
@@ -52,10 +52,10 @@ public class ProveedorController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Proveedor>> Post([FromBody] ProveedorDto dto)
+    public async Task<ActionResult<Orden>> Post([FromBody] OrdenDto dto)
     {
-        var result = _mapper.Map<Proveedor>(dto);
-        this._unitOfWork.Proveedores.Add(result);
+        var result = _mapper.Map<Orden>(dto);
+        this._unitOfWork.Ordenes.Add(result);
         await _unitOfWork.SaveAsync();
 
 
@@ -72,11 +72,11 @@ public class ProveedorController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Proveedor>> put(ProveedorDto dto)
+    public async Task<ActionResult<Orden>> put(OrdenDto dto)
     {
         if(dto == null){ return NotFound(); }
-        var result = this._mapper.Map<Proveedor>(dto);
-        this._unitOfWork.Proveedores.Update(result);
+        var result = this._mapper.Map<Orden>(dto);
+        this._unitOfWork.Ordenes.Update(result);
         Console.WriteLine(await this._unitOfWork.SaveAsync());
         return result;
     }
@@ -90,22 +90,25 @@ public class ProveedorController : ApiBaseController
 
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Proveedores.GetByIdAsync(id);
+        var result = await _unitOfWork.Ordenes.GetByIdAsync(id);
         if(result == null)
         {
             return NotFound();
         }
-        this._unitOfWork.Proveedores.Remove(result);
+        this._unitOfWork.Ordenes.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }
-    [HttpGet("natural")]
+
+    [HttpGet("prendasXorden/{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<ProveedorTipoDto>>> GetProveedorNatural()
+
+     public async Task<ActionResult> GetPrendas(int id)
     {
-        var result = await _unitOfWork.Proveedores.GetProveedorNatural();
-        return _mapper.Map<List<ProveedorTipoDto>>(result);
+        var result = await _unitOfWork.Ordenes.GetPrendas(id);
+        return Ok(result);
     }
+    
 }
