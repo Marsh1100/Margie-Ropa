@@ -83,11 +83,10 @@ public class ProveedorController : ApiBaseController
 
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrator")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _unitOfWork.Proveedores.GetByIdAsync(id);
@@ -99,6 +98,7 @@ public class ProveedorController : ApiBaseController
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }
+    
     [HttpGet("natural")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
